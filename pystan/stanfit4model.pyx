@@ -591,6 +591,21 @@ cdef class StanFit4Model:
             extracted = np.dstack(extracted)
         return extracted
 
+    def to_frame(self, *pars, **extract_kw):
+        """
+        Method to express varnames from chains in a dataframe 
+        """
+        try:
+            import pandas as pd
+        except ImportError:
+            raise ImportError('pandas is required to access the'
+                              ' to_dataframe method')
+        # resolve multivariate parameters
+        ...
+        # pack into dataframe using .from_dict()
+        odict = self.extract(pars=varnames, **extract_kw)
+        return pd.DataFrame.from_dict(odict)
+
     def __unicode__(self):
         # for Python 2.x
         return pystan.misc._print_stanfit(self)
